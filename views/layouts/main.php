@@ -35,10 +35,24 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $menuItems = [];
+    if (Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/user/signup']];
+        $menuItems[] = ['label' => 'Вход', 'url' => ['/user/signin'],];
+    } else {
+        $menuItems[] = ['label' => 'Кабинет', 'url' => ['/user/cabinet'],];
+        $menuItems[] = '<li>'
+            . Html::beginForm(['/user/logout'], 'post')
+            . Html::submitButton(
+                'Выход (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+    }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-        ],
+        'items' => $menuItems,
     ]);
     NavBar::end();
     ?>
@@ -54,7 +68,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">Mini.fy <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
