@@ -2,11 +2,16 @@
 
 namespace app\controllers;
 
+
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\web\Controller;
 use app\models\forms\SignupForm;
 use app\models\forms\SigninForm;
+use app\models\forms\RequestPasswordResetForm;
+use app\models\forms\ResetPasswordForm;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -19,11 +24,11 @@ class UserController extends Controller
                 'denyCallback' => function() {
                     $this->goHome();
                 },
-                'only' => ['signup', 'signin', 'logout'],
+                'only' => ['signup', 'signin', 'logout', 'request-password-reset', 'reset-password'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['signup', 'signin'],
+                        'actions' => ['signup', 'signin', 'request-password-reset', 'reset-password'],
                         'roles' => ['?'],
                     ],
                     [
@@ -77,7 +82,6 @@ class UserController extends Controller
     }
 
     /**
-     *
      * Logout user
      *
      * @return \yii\web\Response
@@ -87,5 +91,56 @@ class UserController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    /**
+     *Displays request password reset page
+     *
+     * @return string
+     */
+    public function actionRequestPasswordReset()
+    {
+        $model = new RequestPasswordResetForm();
+
+        if (Yii::$app->request->isPost) {
+            $formData = Yii::$app->request->post();
+
+            if ($model->load($formData) && $model->validate()) {
+                if ($model->sendEmail()) {
+                    Yii::$app->session->setFlash('success', 'Ссылка для восстановления пароля отправлена на почту');
+                    return $this->goHome();
+                } else {
+                    Yii::$app->session->setFlash('error', 'В данный момент восстановление пароля невозможно. Попробуйте позже.');
+                }
+            }
+        }
+        return $this->render('request-password-reset', ['model' => $model]);
+    }
+
+    /**
+     *Displays reset password page
+     *
+     * @return string
+     */
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        if (Yii::$app->request->isPost) {
+            $formData = Yii::$app->request->post();
+
+            if ($model->load($formData) && $model->validate()) {
+                if ($model->resetPassword()) {
+                    Yii::$app->session->setFlash('success', 'Пароль успешно изменен');
+                    return $this->redirect('/user/signin');
+                }
+            }
+        }
+
+        return $this->render('reset-password', ['model' => $model]);
     }
 }

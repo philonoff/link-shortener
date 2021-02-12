@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?=Html::encode($this->title)?></h1>
     <?php
     $form = ActiveForm::begin([
-        'id' => 'register-form',
+        'id' => 'signin-form',
     ]);
     ?>
     <?= $form->field($model, 'username')->label('Логин')?>
@@ -23,3 +23,5 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <?php ActiveForm::end();?>
+
+<p class="col-lg-10">Забыли пароль? Воспользуйтесь <a href="/user/request-password-reset">формой восстановления пароля</a></p>

@@ -2,9 +2,9 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-/* @var $model app\models\forms\SignupForm */
+/* @var $model app\models\forms\ResetPasswordForm */
 
-$this->title = "Регистрация";
+$this->title = "Новый пароль";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -12,13 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?=Html::encode($this->title)?></h1>
     <?php
     $form = ActiveForm::begin([
-        'id' => 'signup-form',
+        'id' => 'reset-password-form',
     ]);
-
-    $usernameHint = <<<EOD
-    Количество символов: от 4 до 20 <br>
-    Доступные символы: a-z A-Z 0-9 ._- <br>
-    EOD;
 
     $passwordHint = <<<EOD
     Количество символов: от 8 до 32 <br>
@@ -26,13 +21,13 @@ $this->params['breadcrumbs'][] = $this->title;
     Как минимум по одному символу в нижнем и верхнем регистре, цифре, спецсимволу.
     EOD;
     ?>
+
     <i class="bi bi-clipboard"></i>
-    <?= $form->field($model, 'username')->label('Логин')->hint($usernameHint)?>
-    <?= $form->field($model, 'email')->input('email')?>
     <?= $form->field($model, 'password')->passwordInput()->label('Пароль')->hint($passwordHint)?>
     <?= $form->field($model, 'password_repeat')->passwordInput()->label('Повторите пароль')?>
     <div class="form-group">
-        <?= Html::submitButton('Регистрация',['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Сохранить',['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 <?php ActiveForm::end();?>
+
