@@ -6,6 +6,9 @@ use yii\base\Model;
 use yii\base\InvalidArgumentException;
 use app\models\User;
 
+/**
+ * Reset password form model
+ */
 class ResetPasswordForm extends Model
 {
     private $user;
@@ -42,6 +45,10 @@ class ResetPasswordForm extends Model
         ];
     }
 
+    /**
+     * Resets user password
+     * @return bool whether password is reset successfully
+     */
     public function resetPassword()
     {
         $this->user->setPassword($this->password);

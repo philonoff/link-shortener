@@ -6,6 +6,9 @@ use app\models\User;
 use yii\base\Model;
 use Yii;
 
+/**
+ * Request password reset form model
+ */
 class RequestPasswordResetForm extends Model
 {
     public $email;
@@ -19,6 +22,10 @@ class RequestPasswordResetForm extends Model
         ];
     }
 
+    /**
+     * Sends email with link to reset password
+     * @return bool whether mail is sent successfully
+     */
     public function sendEmail()
     {
         $user = User::findOne(['email' => $this->email]);

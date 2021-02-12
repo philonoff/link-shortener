@@ -6,6 +6,16 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
+/**
+ * User model
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $password_hash
+ * @property string $password_reset_token
+ * @property string $email
+ * @property string $auth_key
+ */
 class User extends ActiveRecord implements IdentityInterface
 {
 
@@ -14,21 +24,36 @@ class User extends ActiveRecord implements IdentityInterface
         return 'user';
     }
 
+    /**
+     * Sets password to current user
+     * @param string $password
+     */
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
 
+    /**
+     * Sets auth key to current user
+     */
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
+    /**
+     * Sets password reset token to current user
+     */
     public function generatePasswordResetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
+    /**
+     * Validates password reset token
+     * @param string $token
+     * @return bool
+     */
     public static function isPasswordResetTokenValid($token)
     {
         if (empty($token)) {
@@ -40,6 +65,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $timestamp + $expire >= time();
     }
 
+    /**
+     * Finds user via password reset token
+     * @param string $token
+     * @return User|null
+     */
     public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {

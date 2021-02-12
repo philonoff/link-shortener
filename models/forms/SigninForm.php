@@ -6,6 +6,9 @@ use Yii;
 use app\models\User;
 use yii\base\Model;
 
+/**
+ * Sign in form model
+ */
 class SigninForm extends Model
 {
     public $username;
@@ -23,6 +26,11 @@ class SigninForm extends Model
         ];
     }
 
+    /**
+     * Validates password
+     * @param $attribute
+     * @param $params
+     */
     public function validatePassword($attribute, $params)
     {
         $user = User::findOne(['username' => $this->username]);
@@ -32,6 +40,10 @@ class SigninForm extends Model
         }
     }
 
+    /**
+     *  Sign user in
+     * @return bool whether the user is logged in successfully
+     */
     public function signin()
     {
         if ($this->validate()) {

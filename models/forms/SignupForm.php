@@ -5,6 +5,9 @@ namespace app\models\forms;
 use app\models\User;
 use yii\base\Model;
 
+/**
+ * Sign up form model
+ */
 class SignupForm extends Model
 {
     public $username;
@@ -44,6 +47,10 @@ class SignupForm extends Model
         ];
     }
 
+    /**
+     * Signs user up
+     * @return bool whether the creating new account was successful
+     */
     public function save()
     {
         if ($this->validate()) {
