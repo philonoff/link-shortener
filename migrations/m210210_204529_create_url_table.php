@@ -15,8 +15,8 @@ class m210210_204529_create_url_table extends Migration
         $this->createTable('{{%url}}', [
             'token' => $this->string()->notNull(),
             'long_url' => $this->text()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression("CURRENT_TIMESTAMP")->notNull(),
-            'expiry_at' => $this->dateTime()->notNull(),
+            'created_at' => $this->integer()->notNull(),
+            'expiry_at' => $this->integer()->notNull(),
             'user_id' => $this->integer(),
         ]);
 

@@ -8,12 +8,16 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'name' => 'Mini.fy',
+    'timeZone' => 'Europe/Kiev',
     'language' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'token' => [
+            'class' => 'app\components\TokenGenerator',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'srIWjbUzH0CvAPpDTuWCox_jH3h9s03P',
@@ -57,6 +61,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<token:[a-zA-Z0-9]{6}>' => 'site/redirect',
                 'user/reset-password/<token>' => 'user/reset-password',
             ],
         ],

@@ -5,10 +5,8 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\forms\MinifierUrlForm;
 
 class SiteController extends Controller
 {
@@ -61,7 +59,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new MinifierUrlForm();
+
+        if (Yii::$app->request->isPost) {
+            $formData = Yii::$app->request->post();
+
+            if ($model->load($formData) && $model->validate() && $url = $model->save()) {
+                $model = new MinifierUrlForm();
+                return $this->render('index', ['model' => $model, 'url' => $url]);
+            }
+        }
+
+        return $this->render('index', ['model' => $model]);
     }
 
 }
