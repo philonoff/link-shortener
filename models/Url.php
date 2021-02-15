@@ -37,4 +37,12 @@ class Url extends ActiveRecord
         $this->expiry_at = strtotime($datetime);
     }
 
+    /**
+     * Checks if url is expired
+     * @return bool true if url is expired, false otherwise
+     */
+    public function checkIfExpired()
+    {
+        return $this->expiry_at - time() < 0;
+    }
 }

@@ -18,6 +18,9 @@ $config = [
         'token' => [
             'class' => 'app\components\TokenGenerator',
         ],
+        'ip' => [
+            'class' => 'app\components\IpHelper',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'srIWjbUzH0CvAPpDTuWCox_jH3h9s03P',
