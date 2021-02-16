@@ -9,7 +9,7 @@ use yii\helpers\Url;
 $this->title = "Изменить логин";
 $this->params['breadcrumbs'][] = [
     'label' => 'Кабинет',
-    'url' => Url::to(['user/cabinet']),
+    'url' => Url::to(['cabinet/index']),
 ];
 $this->params['breadcrumbs'][] = $this->title;
 

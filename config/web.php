@@ -64,7 +64,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'cabinet' => 'user/cabinet',
+                'cabinet' => 'cabinet/index',
+                'cabinet/url-analytics/<token:[a-zA-Z0-9]{6}>' => 'cabinet/url-analytics/',
                 '<token:[a-zA-Z0-9]{6}>' => 'site/redirect',
                 'user/reset-password/<token>' => 'user/reset-password',
             ],

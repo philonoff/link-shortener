@@ -39,7 +39,7 @@ Yii::$app->formatter->locale = 'ru-RU';
                 <td><?= Html::a(Yii::$app->request->serverName . "/" . $url->token, Url::to(['site/redirect', 'token' => $url->token]), ['target' => '_blank']) ?></td>
                 <td><?= Yii::$app->formatter->asDatetime($url->created_at, 'short')?></td>
                 <td><?= Yii::$app->formatter->asDatetime($url->expiry_at, 'short')?></td>
-                <td><a target="_blank" href="<?= Url::to(['site/analytics', 'token' => $url->token])?>">Аналитика</a></td>
+                <td><a href="<?= Url::to(['cabinet/url-analytics', 'token' => $url->token])?>">Аналитика</a></td>
             </tr>
         <?php endforeach;?>
         </tbody>
@@ -47,3 +47,5 @@ Yii::$app->formatter->locale = 'ru-RU';
 <?php else:?>
     <h3>Вы пока не добивили ни одной ссылки</h3>
 <?php endif;?>
+
+
