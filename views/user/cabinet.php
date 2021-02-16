@@ -15,7 +15,7 @@ Yii::$app->formatter->locale = 'ru-RU';
 
 
 <ul class="list-group" style="width: 200px">
-    <li class="list-group-item"><?= Html::a('Изменить логин', Url::to(['user/update-nickname']))?></li>
+    <li class="list-group-item"><?= Html::a('Изменить логин', Url::to(['user/update-username']))?></li>
     <li class="list-group-item"><?= Html::a('Изменить пароль', Url::to(['user/update-password']))?></li>
     <li class="list-group-item"><?= Html::a('Изменить email', Url::to(['user/update-email']))?></li>
 </ul>

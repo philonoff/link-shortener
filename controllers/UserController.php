@@ -4,6 +4,7 @@ namespace app\controllers;
 
 
 use app\models\Url;
+use app\models\User;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\Controller;
@@ -13,6 +14,7 @@ use app\models\forms\RequestPasswordResetForm;
 use app\models\forms\ResetPasswordForm;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use app\models\forms\UpdateUsernameForm;
 
 class UserController extends Controller
 {
@@ -154,5 +156,23 @@ class UserController extends Controller
         $usersUrls = Url::findAll(['user_id' => Yii::$app->user->getId()]);
 
         return $this->render('cabinet', ['usersUrls' => $usersUrls]);
+    }
+
+    /**
+     * Displays update nickname form
+     * @return string
+     */
+    public function actionUpdateUsername()
+    {
+        $model = new UpdateUsernameForm();
+
+        if (Yii::$app->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->update()) {
+                Yii::$app->session->setFlash('success', 'Логин успешно изменен');
+                return $this->redirect('/user/cabinet');
+            }
+        }
+
+        return $this->render('update-username', ['model' => $model]);
     }
 }
