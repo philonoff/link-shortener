@@ -15,6 +15,9 @@ use app\models\forms\ResetPasswordForm;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use app\models\forms\UpdateUsernameForm;
+use app\models\forms\UpdatePasswordForm;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 class UserController extends Controller
 {
@@ -27,7 +30,8 @@ class UserController extends Controller
                 'denyCallback' => function() {
                     $this->goHome();
                 },
-                'only' => ['signup', 'signin', 'logout', 'request-password-reset', 'reset-password', 'cabinet'],
+                'only' => ['signup', 'signin', 'logout', 'request-password-reset', 'reset-password', 'cabinet',
+                    'update-username', 'update-password'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -36,7 +40,7 @@ class UserController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['logout', 'cabinet'],
+                        'actions' => ['logout', 'cabinet', 'update-username', 'update-password'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -174,5 +178,28 @@ class UserController extends Controller
         }
 
         return $this->render('update-username', ['model' => $model]);
+    }
+
+    /**
+     * Displays update password form
+     * @return array|string|Response
+     */
+    public function actionUpdatePassword()
+    {
+        $model = new UpdatePasswordForm();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        if (Yii::$app->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->update()) {
+                Yii::$app->session->setFlash('success', 'Пароль успешно изменен');
+                return $this->redirect('/user/cabinet');
+            }
+        }
+
+        return $this->render('update-password', ['model' => $model]);
     }
 }

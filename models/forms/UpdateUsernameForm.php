@@ -6,7 +6,7 @@ use yii\base\Model;
 use app\models\User;
 
 /**
- * Update username form model
+ * Username update form model
  */
 class UpdateUsernameForm extends Model
 {
