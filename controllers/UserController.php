@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\models\Url;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\Controller;
@@ -24,7 +25,7 @@ class UserController extends Controller
                 'denyCallback' => function() {
                     $this->goHome();
                 },
-                'only' => ['signup', 'signin', 'logout', 'request-password-reset', 'reset-password'],
+                'only' => ['signup', 'signin', 'logout', 'request-password-reset', 'reset-password', 'cabinet'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -33,7 +34,7 @@ class UserController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'cabinet'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -74,7 +75,7 @@ class UserController extends Controller
             $formData = Yii::$app->request->post();
 
             if ($model->load($formData) && $model->signin()) {
-                return $this->redirect('/user/cabinet');
+                return $this->redirect('/cabinet');
             }
 
         }
@@ -142,5 +143,16 @@ class UserController extends Controller
         }
 
         return $this->render('reset-password', ['model' => $model]);
+    }
+
+    /**
+     * Displays user's cabinet
+     * @return string
+     */
+    public function actionCabinet()
+    {
+        $usersUrls = Url::findAll(['user_id' => Yii::$app->user->getId()]);
+
+        return $this->render('cabinet', ['usersUrls' => $usersUrls]);
     }
 }
