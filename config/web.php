@@ -68,6 +68,7 @@ $config = [
                 'cabinet/url-analytics/<token:[a-zA-Z0-9]{6}>' => 'cabinet/url-analytics/',
                 '<token:[a-zA-Z0-9]{6}>' => 'site/redirect',
                 'user/reset-password/<token>' => 'user/reset-password',
+                'user/confirm-email-update/<token>' => 'user/confirm-email-update'
             ],
         ],
     ],

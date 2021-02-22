@@ -45,4 +45,9 @@ class Url extends ActiveRecord
     {
         return $this->expiry_at - time() < 0;
     }
+
+    public function getCountryAnalytics()
+    {
+        return $this->hasMany(CountryAnalytics::class, ['url_token' => 'token']);
+    }
 }

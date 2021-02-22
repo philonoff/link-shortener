@@ -13,7 +13,9 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
+ * @property string $email_change_token
  * @property string $email
+ * @property string $new_email
  * @property string $auth_key
  */
 class User extends ActiveRecord implements IdentityInterface

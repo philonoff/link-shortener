@@ -4,7 +4,6 @@ namespace app\controllers;
 
 
 use app\models\Url;
-use app\models\User;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\Controller;
@@ -13,9 +12,10 @@ use app\models\forms\SigninForm;
 use app\models\forms\RequestPasswordResetForm;
 use app\models\forms\ResetPasswordForm;
 use yii\filters\AccessControl;
-use yii\web\NotFoundHttpException;
+use yii\web\BadRequestHttpException;
 use app\models\forms\UpdateUsernameForm;
 use app\models\forms\UpdatePasswordForm;
+use app\models\forms\UpdateEmailForm;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 
@@ -134,7 +134,7 @@ class UserController extends Controller
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidArgumentException $e) {
-            throw new NotFoundHttpException('Страница не найдена.');
+            throw new BadRequestHttpException($e->getMessage());
         }
 
         if (Yii::$app->request->isPost) {
